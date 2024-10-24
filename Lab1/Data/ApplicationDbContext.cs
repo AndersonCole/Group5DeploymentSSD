@@ -11,6 +11,5 @@ namespace Lab1.Data
         {
         }
         public DbSet<Employer> Employers { get; set; }
-        public DbSet<Lab1.Models.Car>? Car { get; set; }
     }
 }
