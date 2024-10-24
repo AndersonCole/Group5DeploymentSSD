@@ -7,9 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab1.Data;
 using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1.Controllers
 {
+    /// <summary>
+    /// Controller for the Inventory class
+    /// Only accessible by managers and employees,
+    /// Managers have full access
+    /// Employees do not have create/delete access
+    /// </summary>
+    [Authorize(Roles = "Manager,Employee")]
     public class InventoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +54,7 @@ namespace Lab1.Controllers
         }
 
         // GET: Inventories/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +65,7 @@ namespace Lab1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Create([Bind("Id,Name,Quantity,LastOrderDate")] Inventory inventory)
         {
             if (ModelState.IsValid)
@@ -119,6 +129,7 @@ namespace Lab1.Controllers
         }
 
         // GET: Inventories/Delete/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Inventories == null)
@@ -139,6 +150,7 @@ namespace Lab1.Controllers
         // POST: Inventories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Inventories == null)
