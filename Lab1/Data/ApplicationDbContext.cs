@@ -11,5 +11,9 @@ namespace Lab1.Data
         {
         }
         public DbSet<Employer> Employers { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<WorkOrder> WorkOrders { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
     }
 }
