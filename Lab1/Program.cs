@@ -1,8 +1,8 @@
 using Lab1.Data;
 using Lab1.Models;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +48,24 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{ OnPrepareResponse = ctx => ctx.Context.Response.Headers.Add("X-Content-Type-Options", "nosniff") });
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("X-Content-Type=Options", "SAMEORIGIN");
+    context.Response.Headers.Add("X-Xss-Protection", "1");
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+    await next();
+});
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always,
+});
 
 app.UseRouting();
 
