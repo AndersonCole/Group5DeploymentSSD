@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lab1.Data;
 using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1.Controllers
 {
+    [Authorize(Roles = "Manager,Employee")]
     public class CarsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,6 +21,7 @@ namespace Lab1.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: Cars
         public async Task<IActionResult> Index()
         {
@@ -27,6 +30,7 @@ namespace Lab1.Controllers
                           Problem("Entity set 'ApplicationDbContext.Car'  is null.");
         }
 
+        [AllowAnonymous]
         // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -46,6 +50,7 @@ namespace Lab1.Controllers
         }
 
         // GET: Cars/Create
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +61,7 @@ namespace Lab1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Create([Bind("Id,Make,Model,Year,Color,Price")] Car car)
         {
             if (ModelState.IsValid)
@@ -68,6 +74,7 @@ namespace Lab1.Controllers
         }
 
         // GET: Cars/Edit/5
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Cars == null)
@@ -88,6 +95,7 @@ namespace Lab1.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Model,Year,Color,Price")] Car car)
         {
             if (id != car.Id)
@@ -119,6 +127,7 @@ namespace Lab1.Controllers
         }
 
         // GET: Cars/Delete/5
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Cars == null)
@@ -139,6 +148,7 @@ namespace Lab1.Controllers
         // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Cars == null)
