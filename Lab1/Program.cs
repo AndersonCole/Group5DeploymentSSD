@@ -60,6 +60,8 @@ app.Use(async (context, next) =>
     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
     context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; frame-ancestors 'none'; form-action 'self'");
+    context.Response.Headers.Remove("Server");
+    context.Response.Headers.Remove("X-Powered-By");
     await next();
 });
 
@@ -67,6 +69,7 @@ app.UseCookiePolicy(new CookiePolicyOptions
 {
     HttpOnly = HttpOnlyPolicy.Always,
     Secure = CookieSecurePolicy.Always,
+    MinimumSameSitePolicy = SameSiteMode.Strict,
 });
 
 app.UseRouting();
