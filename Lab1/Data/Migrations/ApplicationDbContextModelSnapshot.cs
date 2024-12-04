@@ -126,7 +126,7 @@ namespace Lab1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("Lab1.Models.Employer", b =>
@@ -154,7 +154,7 @@ namespace Lab1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employers");
+                    b.ToTable("Employers", (string)null);
                 });
 
             modelBuilder.Entity("Lab1.Models.Inventory", b =>
@@ -178,7 +178,7 @@ namespace Lab1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Inventories");
+                    b.ToTable("Inventories", (string)null);
                 });
 
             modelBuilder.Entity("Lab1.Models.Location", b =>
@@ -214,7 +214,7 @@ namespace Lab1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Lab1.Models.WorkOrder", b =>
@@ -242,7 +242,7 @@ namespace Lab1.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkOrders");
+                    b.ToTable("WorkOrders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -54,10 +55,11 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Add("X-Content-Type=Options", "SAMEORIGIN");
+    context.Response.Headers.Add("X-Frame-Type-Options", "SAMEORIGIN");
     context.Response.Headers.Add("X-Xss-Protection", "1");
     context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; frame-ancestors 'none'; form-action 'self'");
     await next();
 });
 
